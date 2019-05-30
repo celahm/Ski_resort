@@ -1,0 +1,50 @@
+{% load leaflet_tags %}
+<head>
+
+	 {% leaflet_js %}
+    {% leaflet_css %}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"
+
+</head>
+
+
+
+<body>
+    {% leaflet_map "skiresort" callback="main_map_init" %}
+
+    <script type="text/javascript">
+        function main_map_init (map, options) {
+            var dataurl = '{% url "liftsdata" %}'
+            $.getJSON(dataurl, function (data){
+               L.geoJson(data,{onEachFeature: onEachFeature}).addTo(map);
+            });
+        }
+
+        function onEachFeature(feature, layer) {
+            if (feature.properties && feature.properties.name) {
+               layer.bindPopup(feature.properties.name);
+            }
+
+        }
+    </script>
+
+
+	<ul class="list-group">
+		{% for part in lifts_parts %}
+		<li class="list-group-item d-flex justify-content-between align-items-center">
+			<h2>{{part.name}}</h2>
+			<span class="badge badge-primary badge-pill">Id:{{part.id}}</span>
+			<span class="badge badge-primary badge-pill">Area:
+                {{ part.geom.area }}</span>
+			<span class="badge badge-primary badge-pill"> 
+                    # Polygons: {{part.geom.num_geom}}</span>
+		</li>
+		{% endfor %}
+	</ul>
+
+
+
+
+</body>
