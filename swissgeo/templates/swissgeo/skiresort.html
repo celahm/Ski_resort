@@ -30,7 +30,7 @@
 
 
 
-<div class="jumbotron">
+<div class="jumbotron vertical-center">
     <div class="container for-about">
         <h2 style="color:white; text-transform:uppercase; font-weight:bold;">Welcome <br/>to Nendaz ski resort</h2>
     </div>
@@ -43,7 +43,7 @@
 
 
 <div class="details" id="details">
- <h3 style="color:white; text-transform:uppercase; font-weight:bold;">Details</h3>
+ <h3 style="text-transform:uppercase; font-weight:bold;">Details</h3>
     <div class="panel-group">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -70,6 +70,22 @@
             </div>
             <div id="collapse2" class="panel-collapse collapse">
                 <ul class="list-group">
+                    {% for part in restrooms_parts %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <h5>{{ part.name }}</h5>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+     <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#collapse3">Slopes</a>
+                </h4>
+            </div>
+            <div id="collapse3" class="panel-collapse collapse">
+                <ul class="list-group">
                     {% for part in lifts_parts %}
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <h5>{{ part.name }}</h5>
@@ -78,6 +94,43 @@
                 </ul>
             </div>
         </div>
+     <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#collapse4">Slopes</a>
+                </h4>
+            </div>
+            <div id="collapse4" class="panel-collapse collapse">
+                <ul class="list-group">
+                    {% for part in lifts_parts %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <h5>{{ part.name }}</h5>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+     <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#collapse5">Slopes</a>
+                </h4>
+            </div>
+            <div id="collapse5" class="panel-collapse collapse">
+                <ul class="list-group">
+                    {% for part in lifts_parts %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <h5>{{ part.name }}</h5>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+
+
+
+
     </div>
 </div>
 
@@ -165,46 +218,6 @@
 
 
 
-    // Select all links with hashes
-$('a[href*="#"]')
-  // Remove links that don't actually link to anything
-  .not('[href="#"]')
-  .not('[href="#0"]')
-  .click(function(event) {
-    // On-page links
-    if (
-      location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '')
-      &&
-      location.hostname == this.hostname
-    ) {
-      // Figure out element to scroll to
-      var target = $(this.hash);
-      target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-      // Does a scroll target exist?
-      if (target.length) {
-        // Only prevent default if animation is actually gonna happen
-        event.preventDefault();
-        $('html, body').animate({
-          scrollTop: target.offset().top
-        }, 1000, function() {
-          // Callback after animation
-          // Must change focus!
-          var $target = $(target);
-          $target.focus();
-          if ($target.is(":focus")) { // Checking if the target was focused
-            return false;
-          } else {
-            $target.attr('tabindex','-1'); // Adding tabindex for elements not focusable
-            $target.focus(); // Set focus again
-          };
-        });
-      }
-    }
-  });
-
-
-
-
 
 </script>
 <style type="text/css">
@@ -214,25 +227,22 @@ $('a[href*="#"]')
     }
 
     .jumbotron {
-        background-image: url("https://img6.onthesnow.com/image/xl/52/nendaz_527753.jpg");
+    background-image: url("https://www.investorsinproperty.com/resources/plugins/kcfinder/upload/images/zermatt%281%29.jpg");
         background-size: cover;
-        height: 400px;
-        font-family: "Open Sans";
-        margin-bottom: 2px;
-        margin-top:0px
-    }
+    height: 250px;
+    font-family: "Open Sans";
+    margin-bottom: 2px;
+    margin-top: 0px;
+    background-repeat: no-repeat;
+    background-position-y: -120px;
+}
 
     .details {
-        background-color: black;
         padding-top:30px;
         padding-left:50px;
+        padding-right: 50px;
     }
 
-    .panel-default > .panel-heading{
-        background-color:black;
-        color:white;
-        border:none;
-    }
     .panel {
         border:none;
     }
@@ -249,13 +259,12 @@ $('a[href*="#"]')
     top: 0;
     left: 0;
     right: 0;
-    }
+        height:800px;
 
-    #page-wrap {
-  max-width: 500px;
-  margin: 1rem auto;
-  padding: 1rem;
 }
+
+
+
 
 </style>
 </body>
