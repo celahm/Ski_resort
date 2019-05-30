@@ -129,9 +129,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LEAFLET_CONFIG ={
-    'MIN_ZOOM':3,
+    'MIN_ZOOM':10,
     'MAX_ZOOM':15,
-    'DEFAULT_ZOOM':7,
-    'DEFAULT_CENTER': (46.7,8),
+    'DEFAULT_ZOOM':15,
+    'DEFAULT_CENTER': (46.161426, 7.283116),
   #  'SRID': 21781,
 }
+

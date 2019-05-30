@@ -1,50 +1,263 @@
+<html>
+
 {% load leaflet_tags %}
 <head>
-
-	 {% leaflet_js %}
+    {% leaflet_js %}
     {% leaflet_css %}
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 
-
-
 <body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Nendaz ski resort</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link" href="#map">Map</a>
+      <a class="nav-item nav-link" href="#details">Details</a>
+    </div>
+  </div>
+</nav>
+
+
+
+<div class="jumbotron">
+    <div class="container for-about">
+        <h2 style="color:white; text-transform:uppercase; font-weight:bold;">Welcome <br/>to Nendaz ski resort</h2>
+    </div>
+</div>
+
+<div class="map" id="map">
     {% leaflet_map "skiresort" callback="main_map_init" %}
 
-    <script type="text/javascript">
-        function main_map_init (map, options) {
-            var dataurl = '{% url "liftsdata" %}'
-            $.getJSON(dataurl, function (data){
-               L.geoJson(data,{onEachFeature: onEachFeature}).addTo(map);
-            });
-        }
+</div>
 
-        function onEachFeature(feature, layer) {
-            if (feature.properties && feature.properties.name) {
-               layer.bindPopup(feature.properties.name);
+
+<div class="details" id="details">
+ <h3 style="color:white; text-transform:uppercase; font-weight:bold;">Details</h3>
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#collapse1">Ski-lift</a>
+                </h4>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse">
+                <ul class="list-group">
+                    {% for part in lifts_parts %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <h5>{{ part.name }}</h5>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#collapse2">Slopes</a>
+                </h4>
+            </div>
+            <div id="collapse2" class="panel-collapse collapse">
+                <ul class="list-group">
+                    {% for part in lifts_parts %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <h5>{{ part.name }}</h5>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+
+    function main_map_init(map, options) {
+
+        var liftsdata = '{% url "liftsdata" %}'
+        var liftentrancesdata = '{% url "liftentrancesdata" %}'
+        var slopesdata = '{% url "slopesdata" %}'
+        var firstaid = '{% url "firstaiddata" %}'
+        var restroomsdata = '{% url "restroomsdata" %}'
+        var restaurantsdata = '{% url "restaurantsdata" %}'
+        var ticketservicedata = '{% url "ticketsservicedata" %}'
+        var parksdata = '{% url "parkdata" %}'
+        $.getJSON(liftsdata, function (data) {
+            var lifts = L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
+            controlLayers.addOverlay(lifts, 'Lifts');
+        })
+        $.getJSON(liftentrancesdata, function (data) {
+            var liftentrances = L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
+            controlLayers.addOverlay(liftentrances, 'Lift Entrances');
+        })
+        $.getJSON(slopesdata, function (data) {
+            var slopes = L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
+            controlLayers.addOverlay(slopes, 'Slopes');
+        })
+        $.getJSON(firstaid, function (data) {
+            var firstaids = L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
+            controlLayers.addOverlay(firstaids, 'First Aids');
+        })
+        $.getJSON(restroomsdata, function (data) {
+            var restroom = L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
+            controlLayers.addOverlay(restroom, 'Restrooms');
+        })
+        $.getJSON(restaurantsdata, function (data) {
+            var restaurants = L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
+            controlLayers.addOverlay(restaurants, 'Restaurants');
+
+        })
+        $.getJSON(ticketservicedata, function (data) {
+            var ticketservices = L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
+            controlLayers.addOverlay(ticketservices, 'Ticket services');
+        })
+        $.getJSON(parksdata, function (data) {
+            var parkings = L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
+            controlLayers.addOverlay(parkings, 'Parking');
+
+        })
+
+
+        var controlLayers = L.control.layers(null, null, {collapsed: false}).addTo(map); // Show Overlay controls
+        controlLayers.setPosition('bottomright') // Move Overlay Controls
+
+    }
+
+    function onEachFeature(feature, layer) {
+
+
+        let list
+        if (feature.properties) {
+            if (feature.properties.name && feature.properties.altitude) {
+                list = "<dl><dt>Name</dt>"
+                    + "<dd>" + feature.properties.name + "</dd>"
+                    + "<dt>Altitude</dt>"
+                    + "<dd>" + feature.properties.altitude + "</dd>"
+                if (feature.properties.type && feature.properties.time) {
+                    list +=
+                        "<dt>Type</dt>"
+                        + "<dd>" + feature.properties.type + "</dd>"
+                        + "<dt>Duration</dt>"
+                        + "<dd>" + feature.properties.time + "</dd>"
+                }
             }
 
+
+            layer.bindPopup(list);
+
+
         }
-    </script>
 
-
-	<ul class="list-group">
-		{% for part in lifts_parts %}
-		<li class="list-group-item d-flex justify-content-between align-items-center">
-			<h2>{{part.name}}</h2>
-			<span class="badge badge-primary badge-pill">Id:{{part.id}}</span>
-			<span class="badge badge-primary badge-pill">Area:
-                {{ part.geom.area }}</span>
-			<span class="badge badge-primary badge-pill"> 
-                    # Polygons: {{part.geom.num_geom}}</span>
-		</li>
-		{% endfor %}
-	</ul>
+    }
 
 
 
+    // Select all links with hashes
+$('a[href*="#"]')
+  // Remove links that don't actually link to anything
+  .not('[href="#"]')
+  .not('[href="#0"]')
+  .click(function(event) {
+    // On-page links
+    if (
+      location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '')
+      &&
+      location.hostname == this.hostname
+    ) {
+      // Figure out element to scroll to
+      var target = $(this.hash);
+      target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+      // Does a scroll target exist?
+      if (target.length) {
+        // Only prevent default if animation is actually gonna happen
+        event.preventDefault();
+        $('html, body').animate({
+          scrollTop: target.offset().top
+        }, 1000, function() {
+          // Callback after animation
+          // Must change focus!
+          var $target = $(target);
+          $target.focus();
+          if ($target.is(":focus")) { // Checking if the target was focused
+            return false;
+          } else {
+            $target.attr('tabindex','-1'); // Adding tabindex for elements not focusable
+            $target.focus(); // Set focus again
+          };
+        });
+      }
+    }
+  });
 
+
+
+
+
+</script>
+<style type="text/css">
+
+    .leaflet-container {
+        height: 400px;
+    }
+
+    .jumbotron {
+        background-image: url("https://img6.onthesnow.com/image/xl/52/nendaz_527753.jpg");
+        background-size: cover;
+        height: 400px;
+        font-family: "Open Sans";
+        margin-bottom: 2px;
+        margin-top:0px
+    }
+
+    .details {
+        background-color: black;
+        padding-top:30px;
+        padding-left:50px;
+    }
+
+    .panel-default > .panel-heading{
+        background-color:black;
+        color:white;
+        border:none;
+    }
+    .panel {
+        border:none;
+    }
+    .container.for-about{
+        text-align:left;
+
+    }
+    .navbar{
+        margin-bottom:0px;
+        text-transform:uppercase;
+    }
+
+    #details{
+    top: 0;
+    left: 0;
+    right: 0;
+    }
+
+    #page-wrap {
+  max-width: 500px;
+  margin: 1rem auto;
+  padding: 1rem;
+}
+
+</style>
 </body>
+
+</html>

@@ -37,28 +37,10 @@ def skiresort(request):
                    })
 
 
-    
-def canton(request,canton_name):
-    
-    cantons=Canton.objects.filter(name=canton_name)
-    return render(request, 'swissgeo/canton.html', {'canton_parts':cantons})
-
-#    return HttpResponse(cantons[1].geom.wkt)
-
-def cantons(request):
-    context ={  }
-    return render(request,'swissgeo/cantons.html',context)
-
-def cantonsdata(request):
-    cantons=Canton.objects.all()
-    ser=serialize('geojson',cantons,geometry_field='geom',fields=('name',))
-    
-    return HttpResponse(ser)
-
 
 def liftsdata(request):
     lifts = Lift.objects.all()
-    ser = serialize('geojson', lifts, geometry_field='geom', fields=('name',))
+    ser = serialize('geojson', lifts, geometry_field='geom', fields=('name','altitude','type','time'))
 
     return HttpResponse(ser)
 

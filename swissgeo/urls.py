@@ -9,9 +9,9 @@ urlpatterns = [
     path('restaurantsdata', views.restaurantsdata, name='restaurantsdata'),
     path('restroomsdata', views.restroomsdata, name='restroomsdata'),
     path('slopesdata', views.slopesdata, name='slopesdata'),
-    path('firstaiddata', views.firstaiddata, name='firstaid'),
-    path('parkdata', views.parkdata, name='park'),
-    path('ticketsservicedata', views.ticketservicesdata, name='skiresort'),
+    path('firstaiddata', views.firstaiddata, name='firstaiddata'),
+    path('parkdata', views.parkdata, name='parkdata'),
+    path('ticketsservicedata', views.ticketservicesdata, name='ticketsservicedata'),
     path('skiresort', views.skiresort, name='skiresort'),
 
 ]

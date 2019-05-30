@@ -12,6 +12,8 @@
     {% leaflet_map "cantons" callback="main_map_init" %}
     
     <script type="text/javascript">
+
+
         function main_map_init (map, options) {
             var dataurl = '{% url "cantonsdata" %}'
             $.getJSON(dataurl, function (data){
