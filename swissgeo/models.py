@@ -17,7 +17,6 @@ class Firstaid(models.Model):
 class Lift(models.Model):
     id = models.BigIntegerField(primary_key=True)
     geom = models.MultiLineStringField(srid=21781, blank=True, null=True)
-    fid = models.BigIntegerField(blank=True, null=True)
     name = models.CharField(max_length=80, blank=True, null=True)
     length = models.CharField(max_length=80, blank=True, null=True)
     time = models.CharField(max_length=80, blank=True, null=True)
@@ -97,17 +96,3 @@ class Ticketservice(models.Model):
     class Meta:
         managed = False
         db_table = 'TicketService'
-
-
-
-    
-class Canton(models.Model):
-    name=models.CharField(max_length=200)
-    geom=models.MultiPolygonField(srid=21781,null=True)
-    
-    
-    class Meta:
-        db_table = "cantons"
-        
-    def __str__(self):
-        return self.name

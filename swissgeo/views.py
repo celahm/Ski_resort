@@ -1,17 +1,10 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render
 from django.http import HttpResponse
-from django.template import loader
-from django.http import Http404
 from django.core.serializers import serialize
 
-from .models import Canton, Lift, Restaurant, Restroom, Slope, Ticketservice, Liftentrance, Park,Firstaid
+from .models import Lift, Restaurant, Restroom, Slope, Ticketservice, Liftentrance, Park, Firstaid
 
 # Create your views here.
-
-
-def index(request):
-    return HttpResponse("Hi there this is Switzerland")
-
 
 def skiresort(request):
     lifts = Lift.objects.all()
@@ -37,59 +30,59 @@ def skiresort(request):
                    })
 
 
-
 def liftsdata(request):
     lifts = Lift.objects.all()
-    ser = serialize('geojson', lifts, geometry_field='geom', fields=('name','altitude','type','time'))
+    ser = serialize('geojson', lifts, geometry_field='geom', fields=('name', 'altitude', 'type', 'time'))
 
     return HttpResponse(ser)
 
+
 def liftentrancesdata(request):
     liftentrances = Liftentrance.objects.all()
-    ser = serialize('geojson', liftentrances, geometry_field='geom', fields=('name',))
+    ser = serialize('geojson', liftentrances, geometry_field='geom', fields=('name', 'altitude'))
 
     return HttpResponse(ser)
 
 
 def restaurantsdata(request):
     restaurants = Restaurant.objects.all()
-    ser = serialize('geojson', restaurants, geometry_field='geom', fields=('name',))
+    ser = serialize('geojson', restaurants, geometry_field='geom', fields=('name', 'altitude'))
 
     return HttpResponse(ser)
 
 
 def restroomsdata(request):
     restrooms = Restroom.objects.all()
-    ser = serialize('geojson', restrooms, geometry_field='geom', fields=('name',))
+    ser = serialize('geojson', restrooms, geometry_field='geom', fields='name')
 
     return HttpResponse(ser)
 
 
 def slopesdata(request):
     slopes = Slope.objects.all()
-    ser = serialize('geojson', slopes, geometry_field='geom', fields=('name',))
+    ser = serialize('geojson', slopes, geometry_field='geom',
+                    fields=('name', 'altitude', 'length', 'drop', 'difficulty'))
 
     return HttpResponse(ser)
 
 
 def firstaiddata(request):
     firstaids = Firstaid.objects.all()
-    ser = serialize('geojson', firstaids, geometry_field='geom', fields=('name',))
+    ser = serialize('geojson', firstaids, geometry_field='geom', fields=('name', 'altitude'))
 
     return HttpResponse(ser)
+
 
 def parkdata(request):
     parks = Park.objects.all()
-    ser = serialize('geojson', parks, geometry_field='geom', fields=('name',))
+    ser = serialize('geojson', parks, geometry_field='geom', fields=('name', 'altitude', 'places', 'full'))
 
     return HttpResponse(ser)
+
 
 def ticketservicesdata(request):
-    parks = Park.objects.all()
-    ser = serialize('geojson', parks, geometry_field='geom', fields=('name',))
+    ticketservices = Ticketservice.objects.all()
+    ser = serialize('geojson', ticketservices, geometry_field='geom', fields=('name', 'altitude'))
 
     return HttpResponse(ser)
-
-
-
 

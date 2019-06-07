@@ -15,35 +15,36 @@
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Nendaz ski resort</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-      <a class="nav-item nav-link" href="#map">Map</a>
-      <a class="nav-item nav-link" href="#details">Details</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top">
+    <a class="navbar-brand" href="#">Nendaz ski resort</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="#a_map">Map</a>
+            <a class="nav-item nav-link" href="#a_details">Details</a>
+        </div>
     </div>
-  </div>
 </nav>
 
 
-
-<div class="jumbotron vertical-center">
+<div class="jumbotron">
     <div class="container for-about">
         <h2 style="color:white; text-transform:uppercase; font-weight:bold;">Welcome <br/>to Nendaz ski resort</h2>
     </div>
 </div>
 
+<a class="anchor" id="a_map"></a>
 <div class="map" id="map">
     {% leaflet_map "skiresort" callback="main_map_init" %}
 
 </div>
 
-
+<a class="anchor" id="a_details"></a>
 <div class="details" id="details">
- <h3 style="text-transform:uppercase; font-weight:bold;">Details</h3>
+    <h3 style="text-transform:uppercase; font-weight:bold;">Details</h3>
     <div class="panel-group">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -78,7 +79,7 @@
                 </ul>
             </div>
         </div>
-     <div class="panel panel-default">
+        <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" href="#collapse3">Slopes</a>
@@ -94,7 +95,7 @@
                 </ul>
             </div>
         </div>
-     <div class="panel panel-default">
+        <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" href="#collapse4">Slopes</a>
@@ -110,7 +111,7 @@
                 </ul>
             </div>
         </div>
-     <div class="panel panel-default">
+        <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" href="#collapse5">Slopes</a>
@@ -126,9 +127,6 @@
                 </ul>
             </div>
         </div>
-
-
-
 
 
     </div>
@@ -194,19 +192,54 @@
 
         let list
         if (feature.properties) {
-            if (feature.properties.name && feature.properties.altitude) {
-                list = "<dl><dt>Name</dt>"
-                    + "<dd>" + feature.properties.name + "</dd>"
-                    + "<dt>Altitude</dt>"
-                    + "<dd>" + feature.properties.altitude + "</dd>"
-                if (feature.properties.type && feature.properties.time) {
-                    list +=
-                        "<dt>Type</dt>"
-                        + "<dd>" + feature.properties.type + "</dd>"
-                        + "<dt>Duration</dt>"
-                        + "<dd>" + feature.properties.time + "</dd>"
-                }
+            list = "<dl>";
+            if (feature.properties.name) {
+                list += "<dt>Name</dt>"
+                    + "<dd>" + feature.properties.name + "</dd>";
+
             }
+            if (feature.properties.altitude) {
+                list += "<dt>Altitude</dt>"
+                    + "<dd>" + feature.properties.altitude + "</dd>";
+
+            }
+            if (feature.properties.length) {
+                list += "<dt>Length</dt>"
+                    + "<dd>" + feature.properties.length + "</dd>";
+
+            }
+            if (feature.properties.time) {
+                list += "<dt>Time</dt>"
+                    + "<dd>" + feature.properties.time + "</dd>";
+
+            }
+            if (feature.properties.type) {
+                list += "<dt>Type</dt>"
+                    + "<dd>" + feature.properties.type + "</dd>";
+
+            }
+            if (feature.properties.places) {
+                list += "<dt>Places</dt>"
+                    + "<dd>" + feature.properties.places + "</dd>";
+
+            }
+            if (feature.properties.full) {
+                list += "<dt>Is Full</dt>"
+                    + "<dd>" + feature.properties.full + "</dd>";
+
+            }
+            if (feature.properties.drop) {
+                list += "<dt>Drop</dt>"
+                    + "<dd>" + feature.properties.drop + "</dd>";
+
+            }
+            if (feature.properties.difficulty) {
+                list += "<dt>Difficulty</dt>"
+                    + "<dd>" + feature.properties.difficulty + "</dd>";
+
+            }
+
+            list += "</dl>";
 
 
             layer.bindPopup(list);
@@ -217,56 +250,66 @@
     }
 
 
-
-
 </script>
+</body>
 <style type="text/css">
 
     .leaflet-container {
-        height: 400px;
+        /*height: 800px;*/
+        height: calc(100vh - 60px);
+    }
+
+    a.anchor {
+        display: block;
+        position: relative;
+        top: -60px;
+        visibility: hidden;
     }
 
     .jumbotron {
-    background-image: url("https://www.investorsinproperty.com/resources/plugins/kcfinder/upload/images/zermatt%281%29.jpg");
+        background-image: url("https://skipass.fr/p/resorts/626/header-haute-nendaz-ef516-1.jpg");
         background-size: cover;
-    height: 250px;
-    font-family: "Open Sans";
-    margin-bottom: 2px;
-    margin-top: 0px;
-    background-repeat: no-repeat;
-    background-position-y: -120px;
-}
+        height: 400px;
+        font-family: "Open Sans";
+        margin-bottom: 2px;
+        margin-top: 0px;
+        background-repeat: no-repeat;
+        background-position-y: -150px;
+    }
+
+    .jumbotron h2 {
+        margin-top: 100px;
+    }
 
     .details {
-        padding-top:30px;
-        padding-left:50px;
+        padding-top: 30px;
+        padding-left: 50px;
         padding-right: 50px;
     }
 
     .panel {
-        border:none;
-    }
-    .container.for-about{
-        text-align:left;
-
-    }
-    .navbar{
-        margin-bottom:0px;
-        text-transform:uppercase;
+        border: none;
     }
 
-    #details{
-    top: 0;
-    left: 0;
-    right: 0;
-        height:800px;
+    .container.for-about {
+        text-align: left;
 
-}
+    }
 
+    .navbar {
+        margin-bottom: 0px;
+        text-transform: uppercase;
+        height: 60px;
+    }
 
+    #details {
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 800px;
 
+    }
 
 </style>
-</body>
 
 </html>
