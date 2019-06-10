@@ -12,7 +12,7 @@ admin.site.register(Restaurant)
 admin.site.register(Slope)
 admin.site.register(Ticketservice)
 admin.site.register(Liftentrance)
-admin.site.register(Park)
+admin.site.register(Park, admin.OSMGeoAdmin)
 admin.site.register(Firstaid)
 
 # also register Geo classes
